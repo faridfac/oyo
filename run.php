@@ -1,6 +1,6 @@
 <?php
 echo color($color = "blue" , "Auto Create OYO Account\n\n");
-ulang:
+awal:
 $users = nama();
 $js = json_decode($users, true);
 $fullname = $js['name']." ".$js['surname'];
@@ -19,7 +19,7 @@ if ($get_otp->is_user_present == 0){
   $regis = register($phone_number, $fullname, $email, $otp, $reff);
   if(preg_match('/access_token/i', $regis)){
     echo color($color = "green" , "[+] Your registration was successfully!!\n\n");
-    goto ulang;
+    goto awal;
   } else {
     echo color($color = "red" , "[x] Your registration failed!!\n");
     exit();
