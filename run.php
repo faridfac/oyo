@@ -75,6 +75,32 @@ function register($phone_number, $fullname, $email, $otp, $reff){
   $result = curl_exec($ch);
   return $result;
 }
+function inbox($email) {
+
+        $method   = 'GET';
+
+        $endpoint = 'https://api.internal.temp-mail.io/api/v2/email/'.str_replace('%40', '@', $email).'/messages';
+
+        $inbox = $this->request ($method, $endpoint, $param=null, $header=null);
+
+        $json = json_decode($inbox);
+
+        foreach ($json as $json) {  
+            
+            if(isset($json->body_text)) { 
+                if(is_numeric(strpos($json->from, 'no-reply@blibli.com'))) {    
+                    $a = stripos($json->body_text, 'WELCOMEEMAILSERIES', 1000);
+                    $b = strpos($json->body_text, 'Kalau kamu tidak'); 
+                    $activation_link = substr($json->body_text, ($a+21), (strlen($json->body_text)-$b+4)*-1); 
+                    return $activation_link;
+                } else {
+                    return FALSE;
+                }
+            } else {
+                return FALSE;
+            }   
+        }
+    }
 
 function nama(){
   $ch = curl_init();
